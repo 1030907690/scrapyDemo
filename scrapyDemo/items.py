@@ -14,4 +14,7 @@ class ScrapydemoItem(scrapy.Item):
     # pass
     name = scrapy.Field()
     url = scrapy.Field()
+    type = scrapy.Field()
+    videoType = scrapy.Field()
+    updateTime = scrapy.Field()
 
