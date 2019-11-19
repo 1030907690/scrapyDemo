@@ -18,3 +18,17 @@ class ScrapydemoItem(scrapy.Item):
     videoType = scrapy.Field()
     updateTime = scrapy.Field()
 
+
+
+class VideoDetail(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    # pass
+    name = scrapy.Field()
+    url = scrapy.Field()
+    type = scrapy.Field()
+    updateTime = scrapy.Field()
+
+
+
+

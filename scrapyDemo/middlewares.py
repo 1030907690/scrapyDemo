@@ -7,6 +7,13 @@
 
 from scrapy import signals
 
+#配置代理
+class ProxyMiddleware(object):
+    def process_request(self,request,spider):
+        if request.url.startswith("http://"):
+            request.meta['proxy']="http://"+'127.0.0.1:1080'          # http代理
+        elif request.url.startswith("https://"):
+            request.meta['proxy']="http://"+'127.0.0.1:1080'         # https代理
 
 class ScrapydemoSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
