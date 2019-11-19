@@ -4,8 +4,8 @@ from ..items import *
 base_href = "http://wolongzy.net";
 
 class DemoSpiders(scrapy.Spider):
-    #运行 scrapy crawl demo
-    name = "demo"
+    #运行 scrapy crawl wolong
+    name = "wolong"
     allowed_domains = ["wolongzy.net"]
     start_urls = []
     for index in range(1,657):
