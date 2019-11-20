@@ -7,11 +7,8 @@ class  CmsSpiders(scrapy.Spider):
     name = "800cms"
     allowed_domains = ["800zy12.com"]
     start_urls = []
-    for index in range(1,2):
+    for index in range(1,18):
         start_urls.append("http://800zy12.com/list-1-"+ str(index)+".html")
-
-
-
 
     def parse(self, response):
         #print("body " +str(response.body))

@@ -1,12 +1,10 @@
 #-*-coding: UTF-8 -*-
-import scrapy
 from ..items import *
 import json
-import os
 base_href = "http://800zy12.com"
 
 
-class  CmsVideoDetail(scrapy.Spider):
+class  CmsVideoDetailSpiders(scrapy.Spider):
     #运行 scrapy crawl 800cms
     name = "800cms_detail"
     allowed_domains = ["800zy12.com"]
