@@ -28,6 +28,7 @@ class VideoDetail(scrapy.Item):
     url = scrapy.Field()
     type = scrapy.Field()
     updateTime = scrapy.Field()
+    img = scrapy.Field();
 
 
 
