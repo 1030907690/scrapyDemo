@@ -1,18 +1,28 @@
-#-*-coding: UTF-8 -*-
+# -*-coding: UTF-8 -*-
 import scrapy
 from ..items import *
+import os
+
 base_href = "http://800zy12.com"
-class  CmsSpiders(scrapy.Spider):
-    #运行 scrapy crawl 800cms
+
+
+class CmsSpiders(scrapy.Spider):
+    # 运行 scrapy crawl 800cms
     name = "800cms"
     allowed_domains = ["800zy12.com"]
     start_urls = []
-    for index in range(1,18):
-        start_urls.append("http://800zy12.com/list-1-"+ str(index)+".html")
+    #类型
+    video_type = 6;
+    #+1页
+    maxPage = 57;
+
+
+    for index in range(1, maxPage):
+        start_urls.append("http://800zy12.com/list-" + str(video_type) + "-" + str(index) + ".html")
 
     def parse(self, response):
-        #print("body " +str(response.body))
-        #video_list = response.xpath("//ul[@class='videoContent']");
+        # print("body " +str(response.body))
+        # video_list = response.xpath("//ul[@class='videoContent']");
         video_list = response.xpath("//ul[@class='videoContent']/li");
         print(str(video_list) + "-------------")
         for item in video_list:
