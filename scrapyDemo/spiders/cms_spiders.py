@@ -12,9 +12,9 @@ class CmsSpiders(scrapy.Spider):
     allowed_domains = ["800zy12.com"]
     start_urls = []
     #类型
-    video_type = 6;
+    video_type = 13;
     #+1页
-    maxPage = 57;
+    maxPage = 165;
 
 
     for index in range(1, maxPage):
