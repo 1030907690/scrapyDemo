@@ -12,7 +12,9 @@ PROJECT_DIR = os.getcwd() + "/" + "../"
 FFMPEG_DIR = PROJECT_DIR + "ffmpeg-20191120-d73f062-win64-static/"
 FFMPEG_BIN_DIR = FFMPEG_DIR + "bin/"
 #key的路径
-KEY_INFO_PATH = "key/" + "videokey.info"
+KEY_BASE_PATH = os.getcwd() + "/key/";
+KEY_VIDEO_PATH = KEY_BASE_PATH + "video.key";
+KEY_INFO_PATH = KEY_BASE_PATH + "videokey.info"
 
 total_length = 0;
 
@@ -56,6 +58,13 @@ ffmpeg -i index.mp4 -c copy -bsf:v h264_mp4toannexb -hls_time 30 -hls_list_size 
 def transform_mp4_to_m3u8(relativePath, fullPath):
     outM3U8StorageName = "index.m3u8";
     outM3U8StoragePath = BASE_PATH + relativePath + "/" + outM3U8StorageName;
+
+
+    #复制key文件
+    if os.path.exists(BASE_PATH + relativePath + "/" +"video.key") == False:
+        shutil.copy(KEY_VIDEO_PATH,BASE_PATH + relativePath);
+
+
     if  os.path.exists(outM3U8StoragePath) == False:
         # 将ts切片加密，并生成m3u8文件
         os.system(FFMPEG_BIN_DIR + "ffmpeg -i "+ fullPath +" -c copy -bsf:v h264_mp4toannexb -hls_time 30 -hls_list_size 0 -hls_key_info_file  " + KEY_INFO_PATH +" " + outM3U8StoragePath)
