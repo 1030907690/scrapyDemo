@@ -4,9 +4,10 @@ import os
 from urllib.parse import urlparse
 import requests
 import shutil
+from parse.Video import *
 
 # 存储的根目录
-BASE_PATH = "E:/800cms/"
+BASE_PATH = "G:/video/"
 # 当前项目路径
 PROJECT_DIR = os.getcwd() + "/" + "../"
 FFMPEG_DIR = PROJECT_DIR + "ffmpeg-20191120-d73f062-win64-static/"
@@ -17,6 +18,8 @@ KEY_VIDEO_PATH = KEY_BASE_PATH + "video.key";
 KEY_INFO_PATH = KEY_BASE_PATH + "videokey.info"
 
 total_length = 0;
+
+data_struct_array = [];
 
 '''
 zhouzhongqing
@@ -35,10 +38,18 @@ def parse_m3u8_file(item):
     urlRes = urlparse(url)
     savePath = urlRes.path[1:];
     relativePath = create_relative_path(savePath)
-    download_file_image(relativePath, img)
+    img_path = download_file_image(relativePath, img)
     fullPath = download_file_m3u8(relativePath, url);
-    transform_mp4_to_m3u8(relativePath, fullPath)
+    m3u8_path = transform_mp4_to_m3u8(relativePath, fullPath);
+    build_data_struct(name,type,m3u8_path.replace(BASE_PATH,""),img_path.replace(BASE_PATH,""))
     remaining_queue();
+
+
+def build_data_struct(name,type,relative_path,img):
+     video = Video(name,type,relative_path,img);
+     data_struct_array.append(video);
+
+
 
 
 '''
@@ -58,8 +69,6 @@ ffmpeg -i index.mp4 -c copy -bsf:v h264_mp4toannexb -hls_time 30 -hls_list_size 
 def transform_mp4_to_m3u8(relativePath, fullPath):
     outM3U8StorageName = "index.m3u8";
     outM3U8StoragePath = BASE_PATH + relativePath + "/" + outM3U8StorageName;
-
-
     #复制key文件
     if os.path.exists(BASE_PATH + relativePath + "/" +"video.key") == False:
         shutil.copy(KEY_VIDEO_PATH,BASE_PATH + relativePath);
@@ -70,6 +79,8 @@ def transform_mp4_to_m3u8(relativePath, fullPath):
         os.system(FFMPEG_BIN_DIR + "ffmpeg -i "+ fullPath +" -c copy -bsf:v h264_mp4toannexb -hls_time 30 -hls_list_size 0 -hls_key_info_file  " + KEY_INFO_PATH +" " + outM3U8StoragePath)
     else:
         print("Already Storage Path " + outM3U8StoragePath)
+
+    return outM3U8StoragePath;
 
 '''
 def transform_mp4_to_m3u8(relativePath, fullPath):
@@ -104,8 +115,17 @@ def remaining_queue():
     global total_length;
     total_length -= 1
     print(" remaining number " + str(total_length));
+    if total_length <= 0:
+        json_str = json.dumps(data_struct_array, default=st_to_dict,ensure_ascii=False); #default参数就是告知json如何进行序列化
+        print(json_str)
+        if os.path.exists(BASE_PATH + "data.json"):
+            os.remove(BASE_PATH + "data.json")
+        file = open(BASE_PATH + "data.json", "w",encoding='utf-8')
+        file.write(json_str)
+        file.close()
 
-
+def st_to_dict(v):
+    return {'name':v.name,'type':v.type,'relative_path':v.relative_path,"img":v.img}
 '''
 zhouzhongqing
 2019年11月21日12:47:23
@@ -159,6 +179,7 @@ def download_file_image(relativePath, url):
             f.write(r.content)
         f.close()
 
+    return fullPath;
 
 ''' 
 下载视频文件 返回mp4路径
