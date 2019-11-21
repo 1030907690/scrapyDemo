@@ -45,7 +45,9 @@ def parse_m3u8_file(item):
     remaining_queue();
     post_process();
 
-
+'''
+后处理逻辑，处理自己的逻辑
+'''
 def post_process():
     if total_length <= 0:
         json_str = json.dumps(data_struct_array, default=st_to_dict, ensure_ascii=False);  # default参数就是告知json如何进行序列化
