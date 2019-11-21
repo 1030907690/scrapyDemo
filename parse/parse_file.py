@@ -43,6 +43,18 @@ def parse_m3u8_file(item):
     m3u8_path = transform_mp4_to_m3u8(relativePath, fullPath);
     build_data_struct(name,type,m3u8_path.replace(BASE_PATH,""),img_path.replace(BASE_PATH,""))
     remaining_queue();
+    post_process();
+
+
+def post_process():
+    if total_length <= 0:
+        json_str = json.dumps(data_struct_array, default=st_to_dict, ensure_ascii=False);  # default参数就是告知json如何进行序列化
+        print(json_str)
+        if os.path.exists(BASE_PATH + "data.json"):
+            os.remove(BASE_PATH + "data.json")
+        file = open(BASE_PATH + "data.json", "w", encoding='utf-8')
+        file.write(json_str)
+        file.close()
 
 
 def build_data_struct(name,type,relative_path,img):
@@ -115,14 +127,6 @@ def remaining_queue():
     global total_length;
     total_length -= 1
     print(" remaining number " + str(total_length));
-    if total_length <= 0:
-        json_str = json.dumps(data_struct_array, default=st_to_dict,ensure_ascii=False); #default参数就是告知json如何进行序列化
-        print(json_str)
-        if os.path.exists(BASE_PATH + "data.json"):
-            os.remove(BASE_PATH + "data.json")
-        file = open(BASE_PATH + "data.json", "w",encoding='utf-8')
-        file.write(json_str)
-        file.close()
 
 def st_to_dict(v):
     return {'name':v.name,'type':v.type,'relative_path':v.relative_path,"img":v.img}
