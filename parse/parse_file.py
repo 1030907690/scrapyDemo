@@ -103,7 +103,7 @@ def transform_mp4_to_m3u8(relativePath, fullPath):
 def remaining_queue():
     global total_length;
     total_length -= 1
-    print("remaining number " + str(total_length));
+    print(" remaining number " + str(total_length));
 
 
 '''
