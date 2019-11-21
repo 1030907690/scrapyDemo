@@ -50,7 +50,8 @@ def parse_m3u8_file(item):
 '''
 def post_process():
     if total_length <= 0:
-        json_str = json.dumps(data_struct_array, default=st_to_dict, ensure_ascii=False);  # default参数就是告知json如何进行序列化
+        #json_str = json.dumps(data_struct_array, default=st_to_dict, ensure_ascii=False);  # default参数就是告知json如何进行序列化
+        json_str = json.dumps(data_struct_array,default=lambda obj: obj.__dict__, sort_keys=True, indent=4, ensure_ascii=False);
         print(json_str)
         if os.path.exists(BASE_PATH + "data.json"):
             os.remove(BASE_PATH + "data.json")
