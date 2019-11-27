@@ -6,6 +6,30 @@ import requests
 import shutil
 from parse.Video import *
 
+
+'''
+添加水印
+ffmpeg -i index.mp4 -acodec copy -b:v 548k -vf "movie=logo.png[watermark];[in][watermark]overlay=20:20" output.mp4
+说明 
+- -i a.mp4:要处理的视频文件 
+- -acodec copy：保持音频不变 
+- -b:v 548k：设置视频比特率，默认200k，最好设置与原视频一致（获取方法见一），不然清晰度可能变差。 
+- -vf “…”：水印处理参数。其中，logo.png是水印图片;overlay=20:20是图片左上角距离视频左上角的距离。 
+- output.mp4为输出文件名
+ 
+ 
+去除水印
+ffmpeg -i output.mp4 -b:v 548k -vf delogo=x=20:y=20:w=120:h=45:show=1 delogo.mp4
+对delogo滤镜的说明： 
+- x,y：水印的左上方坐标 
+- w,h: 水印的宽高 
+- show:可选参数，为1时，可以看到一个绿色的，由x,y,w,h所确认的矩形框，方便调试使用。无误后，可以去掉此参数。 
+- 如需使用delogo滤镜，编译ffmpge一定要加–enable-gpl选项（详见这里）。不然使用时会提示
+ 
+'''
+
+
+
 # 存储的根目录
 BASE_PATH = "G:/video/"
 # 当前项目路径
