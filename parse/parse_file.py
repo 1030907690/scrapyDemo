@@ -8,6 +8,7 @@ from parse.Video import *
 
 
 '''
+https://blog.csdn.net/qmhball/article/details/79364684
 添加水印
 ffmpeg -i index.mp4 -acodec copy -b:v 548k -vf "movie=logo.png[watermark];[in][watermark]overlay=20:20" output.mp4
 说明 
