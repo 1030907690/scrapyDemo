@@ -59,7 +59,7 @@ ROBOTSTXT_OBEY = False
 #}
 #代理
 DOWNLOADER_MIDDLEWARES = {
-    'scrapyDemo.middlewares.ProxyMiddleware': 500,
+    # 'scrapyDemo.middlewares.ProxyMiddleware': 500,
 }
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
