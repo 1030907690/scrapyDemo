@@ -104,8 +104,14 @@ ffmpeg -i " + outTsPath + " -c copy -map 0 -f segment -segment_list " + outM3U8S
 
 转成m3u8并加密 
 ffmpeg -i index.mp4 -c copy -bsf:v h264_mp4toannexb -hls_time 30 -hls_list_size 0 -hls_key_info_file videokey.info output.m3u8
+
+
+
 -hls_time 设置每片的时长，默认值为2。单位为秒
 -hls_list_size 设置播放列表保存的最多条目，设置为0会保存所有切片信息，默认值为5
+
+
+ffmpeg -i C:\Users\Administrator\Desktop\video/gc16.mp4 video2.mp4 -c:v libx264 -hls_time 10 -hls_list_size 0 -c:a aac -strict -2 -f hls -hls_key_info_file  key/videokey.info gc16/index.m3u8
 '''
 
 def transform_mp4_to_m3u8(relativePath, fullPath):
